@@ -1,0 +1,9 @@
+.Full-Form {
+    display: grid;
+    grid-column: auto auto;
+    background-color: red;
+}
+
+.h1 {
+    color:yellow;
+}
