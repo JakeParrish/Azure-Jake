@@ -3,14 +3,23 @@ from flask import Flask, render_template, request
 from dash import dcc, html, Input, Output, callback
 from flask_sqlalchemy import SQLAlchemy as SQL
 from datetime import datetime
-import pyodbc as odbc
-import pandas as pd
+# from pandas import pandas as pd
+from pyodbc import pyodbc as pyo
 
 app = Flask(__name__)
 
 cnn_azure = (
-    r"Driver={SQL Server};Server=pip-it-sharepoint-prod-eastus;"
+    r"Driver={ODBC Driver 13 for SQL Server};Server=tcp:pip-it-sharepoint-prod-eastus.database.windows.net,1433;Database=Travel Training;Uid=pkoza;Pwd=xAgLBmu#7bSeeYt;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;"
 )
+
+cnn = pyo.connect(cnn_azure)
+
+sql = "SELECT TOP (1000) [Employee],[Email] FROM [dbo].[Employees & Emails]"
+df = pd.read_sql(sql, cnn)
+
+cnn.close()
+
+
 #app.config['SQLALCHEMY_DATABASE_URI'] = "pip-it-sharepoint-prod-eastus"
 
 # DRIVER_NAME = 'SQL SERVER'
@@ -32,6 +41,7 @@ cnn_azure = (
 def main():
     # conn = odbc.connection(connection_string)
     # print(conn)
+    print(df.head(10))
     return render_template("index.html")
 
 @app.route("/form", methods=["POST"])
