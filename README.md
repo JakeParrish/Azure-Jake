@@ -1,2 +1,2 @@
-# BQMI Microsoft Azure
+# Test For Azure Application
  
